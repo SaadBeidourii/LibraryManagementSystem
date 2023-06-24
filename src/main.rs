@@ -1,7 +1,12 @@
+#[macro_use]
+
 mod library_test;
 mod library;
 mod book;
+mod routes;
 
-fn main(){
-    println!("Hello, world");
+
+#[rocket::main]
+async fn main() {
+    routes::rocket().launch().await;
 }

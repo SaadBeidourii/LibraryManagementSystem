@@ -24,3 +24,22 @@ While working on this project, gives the opportunity to explore various Rust con
 - Error handling with Rust's error management system.
 - Utilizing Rust's standard collections, such as `Vec` and `HashMap`.
 - Organizing code using modules and packages.
+
+## Rocket GUI Implementation
+
+In addition to the command-line interface (CLI) version of the library management system, this project also includes an implementation of a graphical user interface (GUI) using the Rocket framework.
+
+To launch the GUI version of the library management system, follow these steps:
+
+1. Ensure you have the necessary dependencies by running `cargo update` to update your dependencies based on the `Cargo.toml` file.
+
+2. Open a terminal or command prompt and navigate to the project directory.
+
+3. Run the command `cargo run` to compile and launch the application.
+
+4. Access the library management system GUI by opening a web browser and entering `http://localhost:8000` in the address bar.
+
+5. Interact with the graphical interface to add, delete, search for books, and explore other features of the library management system.
+
+Please note that the Rocket GUI implementation requires an internet browser to access the interface.
+
