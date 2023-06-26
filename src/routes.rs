@@ -15,10 +15,10 @@ async fn hello() -> Result<RawHtml<String>, io::Error> {
 }
 
 #[get("/books")]
-fn get_books() -> RawHtml<String> {
-    let list_of_books="<h1>List of books</h1>";
-    let html_content_books= format!("{}",list_of_books);
-    RawHtml(html_content_books)
+fn get_books() -> Result<RawHtml<String>, io::Error> {
+    let file_path = "html/listOfBooks.html";
+    let contents = fs::read_to_string(file_path)?;
+    Ok(RawHtml(contents))
 }
 
 #[post("/books")]
