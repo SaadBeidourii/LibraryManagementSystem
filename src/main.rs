@@ -4,6 +4,7 @@ mod library_test;
 mod library;
 mod book;
 mod routes;
+mod mocks;
 
 
 #[rocket::main]

@@ -22,4 +22,8 @@ impl Library{
             None
         }
     }
+
+    pub fn get_book_list_from_library(&self) -> Vec<Book> {
+        self.books.clone()
+    }
 }
