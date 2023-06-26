@@ -43,3 +43,16 @@ To launch the GUI version of the library management system, follow these steps:
 
 Please note that the Rocket GUI implementation requires an internet browser to access the interface.
 
+## HTML File Integration
+
+To keep the HTML files separate from the Rust code, i create a directory called `html` in the `src` directory. This directory will contain all the HTML files needed for the GUI. In the `routes.rs` file, you can define routes that correspond to these HTML files.
+
+For example, if you have an HTML file named `hello.html` located in the `html` directory, you can define a route in the `routes.rs` file as follows:
+
+```rust
+#[get("/")]
+async fn hello() -> Result<RawHtml<String>, io::Error> {
+    let file_path = "html/hello.html";
+    let contents = fs::read_to_string(file_path)?;
+    Ok(RawHtml(contents))
+}
