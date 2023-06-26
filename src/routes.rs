@@ -4,15 +4,14 @@ use rocket::post;
 use rocket::Route;
 use rocket::response::content;
 use rocket::response::content::RawHtml;
-
-
+use std::io;
+use std::fs;
 
 #[get("/")]
-fn hello() -> RawHtml<String> {
-    let hello_world = "<h1>Hello, world!</h1>";
-    let button_html =  r#"<a href="/books"><button>List of books</button></a>"#;
-    let html_content = format!("{} {}", hello_world, button_html);
-    RawHtml(html_content)
+async fn hello() -> Result<RawHtml<String>, io::Error> {
+    let file_path = "html/hello.html";
+    let contents = fs::read_to_string(file_path)?;
+    Ok(RawHtml(contents))
 }
 
 #[get("/books")]
