@@ -2,25 +2,29 @@ use rocket::{Build, Rocket, routes};
 use rocket::get;
 use rocket::post;
 use rocket::Route;
+use rocket::response::content;
+use rocket::response::content::RawHtml;
 
 
 
 #[get("/")]
-fn hello() -> &'static str {
-    "Hello, world!"
+fn hello() -> RawHtml<String> {
+    let hello_world = "<h1>Hello, world!</h1>";
+    let button_html =  r#"<a href="/books"><button>List of books</button></a>"#;
+    let html_content = format!("{} {}", hello_world, button_html);
+    RawHtml(html_content)
 }
 
-
 #[get("/books")]
-fn get_books() -> &'static str {
-    "List of books"
-    // Ajoutez ici la logique pour récupérer la liste des livres et la renvoyer en réponse
+fn get_books() -> RawHtml<String> {
+    let list_of_books="<h1>List of books</h1>";
+    let html_content_books= format!("{}",list_of_books);
+    RawHtml(html_content_books)
 }
 
 #[post("/books")]
 fn add_book() -> &'static str {
     "Book added"
-    // Ajoutez ici la logique pour ajouter un livre à la liste
 }
 
 
