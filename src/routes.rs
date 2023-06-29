@@ -3,9 +3,10 @@ use rocket::get;
 use rocket::post;
 use rocket::Route;
 use rocket::response::content;
-use rocket::response::content::RawHtml;
+use rocket::response::content::{RawCss, RawHtml};
 use std::io;
 use std::fs;
+use rocket::fs::FileServer;
 use crate::book::Book;
 use crate::library::Library;
 use crate::mocks::get_mock_books;
@@ -28,7 +29,17 @@ fn get_books() -> Result<RawHtml<String>, io::Error> {
     // Replace a placeholder in the HTML template with the book list HTML
     contents = contents.replace("{{book_list}}", &book_list_html);
 
-    Ok(RawHtml(contents))
+    // Load and include your CSS file using RawCss
+    let css_content = fs::read_to_string("css/card.css")?;
+    let css = RawCss(css_content.clone());
+
+    // Create the Html response with included CSS
+    let response = RawHtml(format!(
+        r#"<style type="text/css">{}</style>{}"#,
+        css_content, contents
+    ));
+
+    Ok(response)
 }
 
 
@@ -37,7 +48,11 @@ fn generate_book_list_html(book_list: &[Book]) -> String {
 
     for book in book_list {
         html_content.push_str(&format!(
-            "<p>Title: {} | Author: {} | ISBN : {} </p>",
+            r#"<div class="card">
+                <p>Title: {}</p>
+                <p>Author: {}</p>
+                <p>ISBN: {}</p>
+            </div>"#,
             book.title, book.author,book.isbn
         ));
     }
