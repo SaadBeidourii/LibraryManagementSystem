@@ -6,6 +6,7 @@ use rocket::response::content;
 use rocket::response::content::{RawCss, RawHtml};
 use std::io;
 use std::fs;
+use std::env;
 use rocket::fs::FileServer;
 use crate::book::Book;
 use crate::library::Library;
@@ -13,14 +14,19 @@ use crate::mocks::get_mock_books;
 
 #[get("/")]
 async fn hello() -> Result<RawHtml<String>, io::Error> {
-    let file_path = "html/hello.html";
+    let mut file_path = env::current_dir()?;
+    file_path.push("src/");
+    file_path.push("html/hello.html");
     let contents = fs::read_to_string(file_path)?;
     Ok(RawHtml(contents))
 }
 
 #[get("/books")]
 fn get_books() -> Result<RawHtml<String>, io::Error> {
-    let file_path = "html/listOfBooks.html";
+    let mut file_path = env::current_dir()?;
+    file_path.push("src/");
+    file_path.push("html/listOfBooks.html");
+    println!("file path: {:?}", file_path);
     let mut contents = fs::read_to_string(file_path)?;
 
     let book_list = get_mock_books();  // Retrieve the mock books
@@ -30,13 +36,15 @@ fn get_books() -> Result<RawHtml<String>, io::Error> {
     contents = contents.replace("{{book_list}}", &book_list_html);
 
     // Load and include your CSS file using RawCss
-    let css_content = fs::read_to_string("css/card.css")?;
-    let css = RawCss(css_content.clone());
-
+    //
+    let mut css_content = env::current_dir()?;
+    css_content.push("src/");
+    css_content.push("css/card.css");
+    let new_css_content = fs::read_to_string(css_content)?;
     // Create the Html response with included CSS
     let response = RawHtml(format!(
         r#"<style type="text/css">{}</style>{}"#,
-        css_content, contents
+        new_css_content, contents
     ));
 
     Ok(response)

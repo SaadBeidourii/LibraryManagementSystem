@@ -1,4 +1,3 @@
-
 use crate::book::Book;
 
 pub fn get_mock_books() -> Vec<Book> {
@@ -21,6 +20,6 @@ pub fn get_mock_books() -> Vec<Book> {
         isbn: "22".to_string(),
     };
 
-
-    vec![book1, book2, book3]
+    let mockbooks = vec![book1, book2, book3];
+    return mockbooks;
 }
